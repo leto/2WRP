@@ -770,10 +770,10 @@ electronic commerce and payment, financial privacy}
 \renewcommand{\abstractname}{}
 \vspace{-8ex}
 \begin{abstract}
-\normalsize \noindent \textbf{Abstract.}
+\normalsize \noindent \textbf{Abstract}
 
 Two Way Replay Protection is a method for a cryptocoin fork to protect itself from
-valid transaction hashes being re-broadcoast "across the fork block". Without it,
+valid transaction hashes being re-broadcoast "across the fork block." Without it,
 for instance, someone can monitor the network of a fork and then perform a
 "replay attack" against the other chain, to steal all value inside Unspent Transaction
 Outputs (UTXOs) inside the replayed transaction hash.
@@ -783,8 +783,7 @@ with custom opcodes, which also causes interoperability problems. Others will pr
 protection, EXCEPT if a large group of miners collude, which is sub-optimal.
 
 In this paper the authors present the most efficient known way of implementing 2WRP for
-any Bitcoin-based fork, which does not require changing internal datastructures, nor
-soft or hard forks, nor storing any extra data in the blockchain at all.
+any Bitcoin-based fork. Which does not require changing internal datastructures, soft or hard forks, or storing any extra data in the blockchain at all.
 
 Additionally, methods for completely avoiding the need for 2WRP are introduced.
 
@@ -858,27 +857,27 @@ which takes in a \transparent value and up to two input \notes, and produces a
 
 All Zcash forks have what we will classify into FOUR categories of transactions.
 
-Let $ t \rightarrow t $ be called a \transparent transaction, which is identical to a \Bitcoin transaction, consisting entirely of transparent inputs and outputs. \HushList protocol implementations \MUSTNOT create \transparent transactions, they do not protect metadata in any way and lack memo fields. These transactions can be done with traditional wallet software and does not have any part in \HushList protocol.
+1.  Let $ t \rightarrow t $ be called a \transparent transaction, which is identical to a \Bitcoin transaction, consisting entirely of transparent inputs and outputs. \HushList protocol implementations \MUSTNOT create \transparent transactions, they do not protect metadata in any way and lack memo fields. These transactions can be done with traditional wallet software and does not have any part in \HushList protocol.
 
-Let $ t \rightarrow z $ be called \shielding transactions, which takes transparent
+2.  Let $ t \rightarrow z $ be called \shielding transactions, which takes transparent
 value stored in UTXOs and transforms them to \xShielded value stored inside of \notes
 which are protected by \zkSNARKs.
 
-Let $ z \rightarrow z $ be called \xShielded transactions, which take \xShielded value
+3.  Let $ z \rightarrow z $ be called \xshielded transactions, which take \xShielded value
 from one \xShielded address to another, and is fully protected by \zkSNARKs. \HushList implementations \MUST  support these transactions, and additionally \SHOULD educate users that they are the most private type of transaction, which minimized metadata leakage.
 
-Let $ z \rightarrow t $ be called \deshielding transactions, which take \xShielded value
-stored in \notes in $z$ and transfer them to \UTXOs stored in $t$. \HushList \MUSTNOT  create \deshielding transactions, as they leak metadata and can potentially link a previously \xShielded address $z$ to a transparent address $t$. \HushList implementation \SHOULD attempt to prevent, at all costs, accidentally sending to a $t$ address via the \zsendmany  RPC command.
+4.  Let $ z \rightarrow t $ be called \deshielding transactions, which take \xShielded value
+stored in \notes in $z$ and transfer them to \UTXOs stored in $t$. \HushList \MUST NOT  create \deshielding transactions, as they leak metadata and can potentially link a previously \xShielded address $z$ to a transparent address $t$. \HushList implementation \SHOULD attempt to prevent, at all costs, accidentally sending to a $t$ address via the \zsendmany RPC command.
 
-An easy way to summarize the support transactions of \Hushlist is to say: All receivers must by \shielded addresses, senders can be either \transparent or \shielded addresses.
+An easy way to summarize the support transactions of \Hushlist is to say: All receivers must use \shielded addresses, senders can be either \transparent or \shielded addresses.
 
 Each \HushList \MUST have a default blockchain and network that it is attached to, and the default
 chain \SHOULD be HUSH. The default network \MUST be assumed to be "mainnet" if not specified, similar to how the *master* branch is assumed in many Git commands if not specified. The user \MUST be able to set their GLOBAL default chain (not implemented yet) as well as a default chain for each list.
 
-Each list also has a tadd+zaddr dedicated to that list, so the user has dedicated addresses to send psuedo/anon messages, as well as default fee and amount. The default amount is
+Each list also has a tadd+zaddr dedicated to that list, so the user has dedicated addresses to send pseudo/anon messages, as well as default fee and amount. The default amount is
 $ 0.0 $ and the default fee is currently $ 0.0001 $ but these numbers are subject to change.
 
-\HushList supports file attachments and embedding arbitrary binary data, it is not limited to ASCII. \HushList does not impose file size limits and network fees and CPU/RAM costs provide natural incentives for spammers to find cheaper and easier-to-access dumping grounds.
+\HushList supports file attachments and embedding arbitrary binary data, it is not limited to ASCII. \HushList does not impose file size limits; network fees and CPU/RAM costs provide natural incentives for spammers to find cheaper and easier-to-access dumping grounds.
 
 \nsection{Design of \HushList}
 
@@ -922,7 +921,7 @@ Since \HushList memos have, by default, an amount of $ 0.0 $, all the costs asso
 For each \HushList the user wants to be part of, \HushList will create a brand new zaddress $ z_L $
 (it \MUSTNOT reuse an existing address) and fund that address via a shielded $z \rightarrow z$ transaction between $z_F \rightarrow z_L$.
 
-If there are no taddr or zaddr funds in the entire wallet, \HushList \SHOULD present the user a taddr + zaddr which can be used to "top up" the current \HushList wallet from another wallet/exchange/etc.
+If there are no taddr or zaddr funds in the entire wallet, \HushList  \SHOULD present the user a taddr + zaddr which can be used to "top up" the current \HushList wallet from another wallet/exchange/etc.
 
 \nsection{\HushList Contacts}
 
@@ -953,22 +952,21 @@ should not allow lists with more than 54 recipients at this time.
 \nsubsection{Multi-Chain Private \HushLists}
 
 A user may choose to send a \HushList memo via multiple coins as long as there is a valid
-address for each Hush Contact on for each coin. For example, if you have addresses for three of your friends on each of the \HUSH, \KMD and \ZEC chains, then you may choose to redundantly send a memo on all of the chains. This provides a backup of the data on the other chains should one of them be blocked (such as dropping any packets for certain peer-to-peer ports), filtered or temporarily inaccessible.
+address for each Hush Contact and for each coin. For example, if you have addresses for three of your friends on each of the \HUSH, \KMD and \ZEC chains, then you may choose to redundantly send a memo on all of the chains. This provides a backup of the data on the other chains should one of them be blocked (such as dropping any packets for certain peer-to-peer ports), filtered or temporarily inaccessible.
 
 Additionally a user may choose to send day-to-day memos on a inexpensive chain such as \HUSH
-which has lower network difficulty and for things that need to have \Bitcoin-level security, an archive copy to \KMD can be sent. \KMD uses the delayed-Proof-Of-Work \cite{dPOW} algorithm ensuring that once the information is engraved on the Bitcoin blockchain, it would be required both blockchains in question to be compromised to prevent accessing the data.
+which has lower network difficulty and for things that need to have \Bitcoin-level security, an archive copy to \KMD can be sent. \KMD uses the delayed-Proof-Of-Work \cite{dPOW} algorithm ensuring that once the information is engraved on the Bitcoin blockchain, it would require both blockchains in question to be compromised to prevent accessing the data.
 
 \nsubsection{Public \HushLists}
 
 A public \HushList means publishing the PRIVATE KEY of a taddr (or potentially a zaddr)
-such that this address is no longer owned by a single individual. By intentially
-publishing the PRIVATE KEY in a public place, the owner has put all FUNDS and more importantly, the metadata of all transactions to that address, in the public domain.
+such that this address is no longer owned by a single individual. By intentionally publishing the PRIVATE KEY in a public place, the owner has put all FUNDS and more importantly, the metadata of all transactions to that address, in the public domain.
 
-By default, \HushList \MUST refuse to publicize the PRIVATE KEY of an address that has non-zero balance. \HushList implementations \SHOULD protect users from accidental monetary loss in every way possible. Even so, a user could accidentally send funds to an address that has been publicized and this very real confusion is still looking for good answers.
+By default, \HushList  \MUST refuse to publicize the PRIVATE KEY of an address that has non-zero balance. \HushList implementations \SHOULD protect users from accidental monetary loss in every way possible. Even so, a user could accidentally send funds to an address that has been publicized and this very real confusion is still looking for good answers.
 
-Very recent developments in \Zcash might allow the potential to use "viewing keys" in the fture, but as this feature has not been fully merged to master at this time and lacks a RPC interface, \HushList chooses to use PRIVATE KEYS which are core \Zcash protocol that is well-supported in all forks. If "viewing keys" are one day to be used, that feature will need to be merged into multiple \Zcash forks, which does not seem likely in the near-term.
+Very recent developments in \Zcash might allow the potential to use "viewing keys" in the future, but as this feature has not been fully merged to master at this time and lacks an RPC interface, \HushList chooses to use PRIVATE KEYS which are core \Zcash protocol that is well-supported in all forks. If "viewing keys" are one day implemented, that feature will need to be merged into multiple \Zcash forks, which does not seem likely in the near-term.
 
-Since creating a private \HushList requires making a transaction on the network to store data in the memo-field, it has a cost. This cost will be the fee of the transaction, most likely around 0.0001 but each chain is different and fees obviously change as blockchains get more active.
+Since creating a private \HushList requires making a transaction on the network to store data in the memo-field, it has a cost. This cost will be the fee of the transaction, most likely around 0.0001 but each chain is different and fees obviously change as blockchains become more utilized.
 
 \nsection{List Subscription}
 
@@ -977,15 +975,15 @@ blockchain, URI or manual entry, the private key is added to the user's wallet,
 along with a user entered or approved name and description for the list (if
 provided in on-chain or uri encoded metadata). HushList creates a unique
 taddr + zaddr for each list so that the user may choose to send each message
-to the list psuedonymously or anonymously or a mixture of both. There is no
-loss of privacy to send memos to the same \HushList with a psuedonym tAlice
+to the list pseudonymously or anonymously or a mixture of both. There is no
+loss of privacy to send memos to the same \HushList with a pseudonym tAlice
 and an anon handle zBob if the user so chooses.
 
 Subscribing to a \HushList is completely free, it is simply the act of importing
 data to your local wallet.
 
 To faciliate applications being able to uniquely identify public \HushLists we
-introduce a new URL scheme where there username is the currency symbole of the
+introduce a new URL scheme where there username is the currency symbol of the
 cryptocoin and the password field is the network, i.e.
 
 	hushlist://COIN:NETWORK@K
@@ -1010,16 +1008,16 @@ is equivalent to
 
 \nsection{Sending To A List}
 
-One may send to a \HushList from a taddr (pen name, psuedonym) or zaddr
+One may send to a \HushList from a taddr (pen name, pseudonym) or zaddr
 (anonymous shielded address) which is implemented in the client via
-the \zsendmany  RPC method. Up to 54 recepients may be in a single shielded
+the \zsendmany   RPC method. Up to 54 recepients may be in a single shielded
 transaction. v1 of HushList only supports HushLists of this size, but v2
 may implement larger HushLists by breaking large recipient lists into multiple sends.
 
 One may send a string of text via the *send* subcommand or send the contents of a file via the *send-file* subcommand. If one sends a string of text, there is no metadata related to that at all, locally. It only exists encrypted in a memo field on the chain. If one uses the *send-file* command, it may be prudent to securely delete the file from the filesystem after it is sent, depending on the needs of the user.
 
 Each HushList has a dedicated default chain that it is attached to. When looking up
-\HushList contacts for a given list, their address on that chain will be retreived.
+\HushList contacts for a given list, their address on that chain will be retrieved.
 
 A unique feature of \HushList is that speech=money, so you may always attach a
 non-zero amount of \HUSH, \ZEC, \KMD/etc to each memo to a \HushList. Currently you must
@@ -1027,7 +1025,7 @@ send each member of a \HushList the same amount in one memo, but you may send di
 
 \nsection{Receiving Messages}
 
-At any time later, after the transaction has entered the blockchain, memos
+After the transaction has entered the blockchain, memos
 sent to a given address can be downloaded and viewed by those parties who
 have valid private keys or viewing keys.
 
@@ -1041,7 +1039,7 @@ the PRIVATE KEY of an address which made the transaction that contains the infor
 
 This is the so-called "investigative journalist" or "whistle-blower" use case. An
 individual can send themselves \HushList memos "just in case" they need to prove
-something in the future. This can be considered "data as insurance".
+something in the future. This can be considered "data as insurance."
 
 \nsection{Costs}
 
@@ -1066,7 +1064,7 @@ shielded addresses never show up directly in the public blockchain. Network tran
 analysis is not possible on zaddrs. The explorer only
 shows that a JoinSplit occured and that change was given to a taddr.
 
-Nevertheless, the follow text is forever embedded in the 512 byte memo field of the above
+Nevertheless, the following text is forever embedded in the 512 byte memo field of the above
 transaction:
 
 \begin{quote}
@@ -1100,12 +1098,12 @@ does leak the metadata of the amount, since it was a de-shielding transaction, f
 
 The biggest concern for metadata leakage in \HushList is in de-shielding $t \rightarrow z$ transactions which leak amount metadata.
 
-The only time \HushList does a de-shielding transaction is when the local wallet has 0 shielded value and it must transfer value from a taddr OR when the user chooses to send from a psuedonymous taddr to a \HushList.
+The only time \HushList does a de-shielding transaction is when the local wallet has 0 shielded value and it must transfer value from a taddr OR when the user chooses to send from a pseudonymous taddr to a \HushList.
 
-The first case we call a "shielded top-up" and happens rarely but we would not want to always have the same default amount to "top-up" because that amount can be searched for on the public chain. For this reason, we add some noise to the exact amount of our topups. For instance, if the user wanted to move up to 1 HUSH, we would generate a random number between 0.9 and 1.0 and then subtract it from the top-up amount. Then all \HushList users wouldhave slightly different top-up amount instead of a few easily searchable amounts.
+The first case we call a "shielded top-up" and happens rarely but we would not want to always have the same default amount to "top-up" because that amount can be searched for on the public chain. For this reason, we add some noise to the exact amount of our topups. For instance, if the user wanted to move up to 1 HUSH, we would generate a random number between 0.9 and 1.0 and then subtract it from the top-up amount. Then all \HushList users would have slightly different top-up amount instead of a few easily searchable amounts.
 
 In the second case, normal transactions will have amount=0 which will stand out and
-network transaction analysis is possible. If these psuedonyms choose to actually send non-zero amounts, network analsysis can be made harder since most \HushList messages use amount=0.
+network transaction analysis is possible. If these pseudonyms choose to actually send non-zero amounts, network analsysis can be made harder since most \HushList messages use amount=0.
 
 \nsection{User Stories}
 
@@ -1116,24 +1114,24 @@ features of the \HushList protocol to meet their needs.
 
 Let Amanda have a transparent address $ t_A $ and let there be a PUBLIC \Hushlist with shielded address $ z_L $.
 
-Amanda sends \HushList memos from $t_A$ to a PUBLIC \HushList with a de-shielding transaction, ie.
+Amanda sends \HushList memos from $t_A$ to a PUBLIC \HushList with a shielding transaction, ie.
 
 $ t_A \rightarrow z_L $.
 
- Any person who is subscribed to this public \HushList will be able to see Amandas memos,
-yet Amandas identity is "psuedonymous", i.e. everybody knows that every message from $ t_A$ is the same person, but her identity remains unknown. If at any time in the future, Amanda would like to *cryptographically prove* that she is the identity behind $t_A$, all she must do is publish the PRIVATE KEY of $t_A$. If any transparent value resides in $t_A$, it can simply be moved to another address before publication.
+Any person who subscribed to this public \HushList will be able to see Amandas memos,
+yet Amandas identity is "pseudonymous", i.e. everybody knows that every message from $ t_A$ is the same person, but her identity remains unknown. If at any time in the future, Amanda would like to *cryptographically prove* that she is the identity behind $t_A$, all she must do is publish the PRIVATE KEY of $t_A$. If any transparent value resides in $t_A$, it can simply be moved to another address before publication.
 
-Of course Amanda is free to never reveal her identity and remain a psuedonym indefinitely.
+Of course Amanda is free to never reveal her identity and remain a pseudonym indefinitely.
 
 Amanda needs to be concerned about her IP address being tied to $ t_A $ by a passive network attacker who records the Internet and is encouraged to use a proxy, Tor or other means depending on risk and operational security needs.
 
-"Oppressed Minority" user story - Francesca and Nicolau
+\nsubsection{"Oppressed Minority" user story - Francesca and Nicolau}
 
-Francesca and Nicalau live in a place where their local religion/government/organization is oppressed by a larger religion/government/organication that controls everything around them, yet they still want to safely communicate.
+Francesca and Nicalau live in a place where their local religion/government/organization is oppressed by a larger religion/government/organization that controls everything around them, yet they still want to safely communicate.
 
-\nsubsection{"Security Researcher" user story - Gordon}
+\nsubsection{"Security Researcher" user story - Dana}
 
-Dana wants to communicate 0-day exploits about nation-state infrastructure to the people that run this critical infrastructure, without anybody else listening in on this very sensitive information.
+Dana wants to communicate zero-day exploits about nation-state infrastructure to the people that run this critical infrastructure, without anybody else listening in on this very sensitive information.
 
 \nsubsection{"Whisteblower" user story - Martha}
 
@@ -1141,7 +1139,7 @@ Martha has data about something that must be transported from internal-only syst
 
 \nsubsection{"Censored Journalist" user story - Billy}
 
-This is an extension of the "Pen Name" User Story. Let's say that for some reason a journalist Billy is already known publicly, but is censored from all media locally in various places. Billy can use HushList to publish his writing (and also source data, encrypted or not) to multiple blockchains to make it permanently mirrored across thousands of servers and very hard to censor.
+This is an extension of the "Pen Name" User Story. Let's say that for some reason Billy, the journalist, is already known publicly, but is censored from all media locally in various places. Billy can use HushList to publish his writings (and also source data, encrypted or not) to multiple blockchains to make it permanently mirrored across thousands of servers and very hard to censor.
 
 \nsection{Special Thanks}
 
